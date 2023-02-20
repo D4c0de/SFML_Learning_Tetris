@@ -14,8 +14,11 @@ public:
 	std::string type;
 
 	std::vector<Component*> components;
+	Component* central;
 	std::vector<sf::Sprite>* getComponet();
 	void setUpComponent();
+	void rotate(bool);
+
 private:
 
 };

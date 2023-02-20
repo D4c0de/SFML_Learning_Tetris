@@ -4,9 +4,10 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "GameWorld.h"
+#include <Windows.h>
 
 void draw(sf::RenderWindow* _window, GameWorld* _world) {
-    _window->clear(sf::Color::White);
+    _window->clear();
     _world->draw();
     _window->display();
 }
@@ -19,7 +20,7 @@ int main()
     const int windowWidth = 800;
     sf::RenderWindow window(sf::VideoMode(windowHeight, windowWidth), "Tetris");
     sf::Event event;
-    GameWorld world= GameWorld(&window);
+    GameWorld world= GameWorld(windowHeight, windowWidth ,&window);
     while (window.isOpen())
     {
         while (window.pollEvent(event))
@@ -30,10 +31,23 @@ int main()
             }
 
         }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        {
+            world.keyPressed("right");
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        {
+            world.keyPressed("left");
+            
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        {
+            world.keyPressed("down");
+            
+        }
         
-
-
         draw(&window, &world);
+        Sleep(300);
     }
 }
 
