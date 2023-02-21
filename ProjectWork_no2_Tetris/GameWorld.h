@@ -8,7 +8,6 @@
 class GameWorld
 {
 public:
-
 	GameWorld(sf::RenderWindow*);
 	GameWorld(int,int,sf::RenderWindow*);
 	~GameWorld();

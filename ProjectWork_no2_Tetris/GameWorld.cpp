@@ -1,7 +1,10 @@
 #include "GameWorld.h"
 #include <SFML/Graphics.hpp>
 
+
 GameWorld::GameWorld(sf::RenderWindow* _window) {
+
+	sf::Vector2u size = _window->getSize();
 
 	window = _window;
 	spawnNewFigure("T");
@@ -43,41 +46,70 @@ void GameWorld::draw() {
 void GameWorld::keyPressed(const std::string& key) {
 	if (key == "down")
 	{
-		for (int i = 0; i < curentDroping->components.size(); i++)
+		curentDroping->fall();
+
+		if (!colisionDetec())
 		{
-			curentDroping->components[i]->fall();
+			curentDroping->undoFall();
+			spawnNewFigure("T");
 		}
-		colisionDetec();
+		
 	}
 	else if (key == "right")
 	{
-
-		for (int i = 0; i < curentDroping->components.size(); i++)
+		curentDroping->move(false);
+		if (!colisionDetec())
 		{
-			curentDroping->components[i]->move(false);
+			curentDroping->undoMove(false);
+			spawnNewFigure("T");
 		}
-		colisionDetec();
 	}
 	else if (key == "left")
 	{
-		
-		for (int i = 0; i < curentDroping->components.size(); i++)
+		curentDroping->move(true);
+		if (!colisionDetec())
 		{
-			curentDroping->components[i]->move(true);
+			curentDroping->undoMove(true);
+			spawnNewFigure("T");
 		}
-		colisionDetec();
+	}
+	else if (key == "up") {
+		curentDroping->rotate();
+		if (!colisionDetec())
+		{
+			curentDroping->undoRotate();
+			spawnNewFigure("T");
+		}
 	}
 }
 
 bool GameWorld::colisionDetec() {
 
+
+	
 	std::vector<std::vector<bool>> board(noOfGrid[0],std::vector<bool>(noOfGrid[1],false));
 	for (int i = 0; i < figures.size(); i++)
 	{
 		for (int j = 0; j < figures[i]->components.size(); j++)
 		{
-			board[figures[i]->components[j]->pos.x][figures[i]->components[j]->pos.y] = true;
+			if (figures[i]!=curentDroping)
+			{
+				board[figures[i]->components[j]->pos.y][figures[i]->components[j]->pos.x] = true;
+			}
+		}
+	}
+	{
+		std::vector<bool> temp(noOfGrid[1],true);
+		board.push_back(temp);
+	}
+	for (int i = 0; i < curentDroping->components.size(); i++)
+	{
+
+		if (board[curentDroping->components[i]->pos.y][curentDroping->components[i]->pos.x] == true) {
+			return false;
 		}
 	}
 
+	return true;
+	
 }

@@ -17,7 +17,12 @@ public:
 	Component* central;
 	std::vector<sf::Sprite>* getComponet();
 	void setUpComponent();
-	void rotate(bool);
+	void move(bool);
+	void undoMove(bool);
+	void fall();
+	void undoFall();
+	void rotate();
+	void undoRotate();
 
 private:
 

@@ -16,8 +16,12 @@ public:
 	sf::Texture texture;
 	sf::Sprite sprite;
 	void move(bool);
+	void undoMove(bool);
 	void setupTexture();
 	void fall();
+	void undoFall();
+	void rotate(const int,const int);
+	void undoRotate(const int, const int);
 	sf::Sprite getSprite();
 private:
 

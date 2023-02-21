@@ -1,10 +1,12 @@
 #include "Figure.h"
 
+
 Figure::Figure(const std::string& _type)
 {
 	type = _type;
 	setUpComponent();
 }
+
 
 Figure::~Figure()
 {
@@ -16,7 +18,35 @@ Figure::~Figure()
 	}
 }
 
+void Figure::fall() {
 
+	for (int i = 0; i < components.size(); i++)
+	{
+		components[i]->fall();
+	}
+}
+void Figure::undoFall() {
+
+	for (int i = 0; i < components.size(); i++)
+	{
+		components[i]->undoFall();
+	}
+}
+
+void Figure::move(bool left) {
+
+	for (int i = 0; i < components.size(); i++)
+	{
+		components[i]->move(left);
+	}
+}
+void Figure::undoMove(bool left) {
+
+	for (int i = 0; i < components.size(); i++)
+	{
+		components[i]->undoMove(left);
+	}
+}
 void Figure::setUpComponent() {
 
 	std::vector<Component*> part;
@@ -27,6 +57,7 @@ void Figure::setUpComponent() {
 		components.push_back(central);
 		components.push_back(new Component("red", 5, 0));
 		components.push_back(new Component("red", 4, 1));
+		components.push_back(new Component("red", 4, 2));
 	}
 	else if (type=="I")
 
@@ -51,24 +82,33 @@ std::vector<sf::Sprite>* Figure::getComponet() {
 }
 
 
-void Figure::rotate(bool left) {
-	
+void Figure::rotate() {
+
 	const int centalHor = central->pos.x;
 	const int centralVec = central->pos.y;
-	if (left)
+
+	for (int i = 0; i < components.size(); i++)
 	{
-		for (int i = 0; i < components.size(); i++)
+		if (components[i]!=central)
 		{
-			if (!components[i]->isCentral) {
-
-
-			}
+			components[i]->rotate(centalHor, centralVec);
 		}
+		
 	}
-	else
+
+}
+void Figure::undoRotate() {
+
+	const int centalHor = central->pos.x;
+	const int centralVec = central->pos.y;
+
+	for (int i = 0; i < components.size(); i++)
 	{
+		if (components[i] != central)
+		{
+			components[i]->undoRotate(centalHor, centralVec);
+		}
 
 	}
-
 
 }

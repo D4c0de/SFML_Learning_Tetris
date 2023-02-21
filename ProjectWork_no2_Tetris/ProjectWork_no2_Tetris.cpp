@@ -45,7 +45,11 @@ int main()
             world.keyPressed("down");
             
         }
-        
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        {
+            world.keyPressed("up");
+
+        }
         draw(&window, &world);
         Sleep(300);
     }

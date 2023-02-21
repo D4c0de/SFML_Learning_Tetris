@@ -1,5 +1,6 @@
 #include "Component.h"
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 Component::Component() {
 	
@@ -48,6 +49,13 @@ void Component::fall()
 	sprite.setPosition(pos.x*50, pos.y*50);
 
 }
+void Component::undoFall()
+{
+
+	pos.y--;
+	sprite.setPosition(pos.x * 50, pos.y * 50);
+
+}
 void Component::move(bool left) {
 
 	if (left)
@@ -62,6 +70,53 @@ void Component::move(bool left) {
 
 	}
 
+}
+void Component::undoMove(bool left) {
+
+	if (!left)
+	{
+		pos.x--;
+		sprite.setPosition(pos.x * 50, pos.y * 50);
+	}
+	else
+	{
+		pos.x++;
+		sprite.setPosition(pos.x * 50, pos.y * 50);
+
+	}
+
+}
+void Component::rotate(const int x, const int y) {
+	int difx = x - pos.x;
+	int dify = y - pos.y;
+
+	if (difx!=0)
+	{
+		pos.y = y - difx;
+		pos.x = x;
+	}
+	if (dify!=0)
+	{
+		pos.x = x + dify;
+		pos.y = y;
+	}
+	sprite.setPosition(pos.x * 50, pos.y * 50);
+}
+void Component::undoRotate(const int x, const int y) {
+	int difx = x - pos.x;
+	int dify = y - pos.y;
+
+	if (difx != 0)
+	{
+		pos.y = y + difx;
+		pos.x = x;
+	}
+	if (dify != 0)
+	{
+		pos.x = x - dify;
+		pos.y = y;
+	}
+	sprite.setPosition(pos.x * 50, pos.y * 50);
 }
 sf::Sprite Component::getSprite()
 {
