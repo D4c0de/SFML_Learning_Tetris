@@ -15,6 +15,7 @@ public:
 	std::string color;
 	sf::Texture texture;
 	sf::Sprite sprite;
+	bool isAlive;
 	void move(bool);
 	void undoMove(bool);
 	void setupTexture();

@@ -51,7 +51,8 @@ void GameWorld::keyPressed(const std::string& key) {
 		if (!colisionDetec())
 		{
 			curentDroping->undoFall();
-			spawnNewFigure("T");
+			lainDeleter();
+			spawnNewFigure("I");
 		}
 		
 	}
@@ -61,7 +62,8 @@ void GameWorld::keyPressed(const std::string& key) {
 		if (!colisionDetec())
 		{
 			curentDroping->undoMove(false);
-			spawnNewFigure("T");
+			lainDeleter();
+			spawnNewFigure("I");
 		}
 	}
 	else if (key == "left")
@@ -70,7 +72,8 @@ void GameWorld::keyPressed(const std::string& key) {
 		if (!colisionDetec())
 		{
 			curentDroping->undoMove(true);
-			spawnNewFigure("T");
+			lainDeleter();
+			spawnNewFigure("I");
 		}
 	}
 	else if (key == "up") {
@@ -78,7 +81,9 @@ void GameWorld::keyPressed(const std::string& key) {
 		if (!colisionDetec())
 		{
 			curentDroping->undoRotate();
-			spawnNewFigure("T");
+			lainDeleter();
+			spawnNewFigure("I");
+			
 		}
 	}
 }
@@ -92,9 +97,14 @@ bool GameWorld::colisionDetec() {
 	{
 		for (int j = 0; j < figures[i]->components.size(); j++)
 		{
+
 			if (figures[i]!=curentDroping)
 			{
-				board[figures[i]->components[j]->pos.y][figures[i]->components[j]->pos.x] = true;
+				if (figures[i]->components[j]->isAlive)
+				{
+					board[figures[i]->components[j]->pos.y][figures[i]->components[j]->pos.x] = true;
+				}
+				
 			}
 		}
 	}
@@ -102,14 +112,65 @@ bool GameWorld::colisionDetec() {
 		std::vector<bool> temp(noOfGrid[1],true);
 		board.push_back(temp);
 	}
+
 	for (int i = 0; i < curentDroping->components.size(); i++)
 	{
-
-		if (board[curentDroping->components[i]->pos.y][curentDroping->components[i]->pos.x] == true) {
-			return false;
-		}
+			if (board[curentDroping->components[i]->pos.y][curentDroping->components[i]->pos.x] == true) {
+				return false;
+			}
 	}
 
 	return true;
 	
+}
+void GameWorld::lainDeleter() {
+
+	std::vector<std::vector<bool>> board(noOfGrid[0], std::vector<bool>(noOfGrid[1], false));
+	for (int i = 0; i < figures.size(); i++)
+	{
+		for (int j = 0; j < figures[i]->components.size(); j++)
+		{
+
+			if (figures[i]->components[j]->isAlive)
+			{
+				board[figures[i]->components[j]->pos.y][figures[i]->components[j]->pos.x] = true;
+			}
+
+
+		}
+	}
+	for (int i = 0; i < board.size(); i++)
+	{
+		bool isLainFull = true;
+		for (int j = 0; j < board[i].size(); j++)
+		{
+			if (board[i][j] == false)
+			{
+				isLainFull = false;
+				break;
+			}
+		}
+		if (isLainFull)
+		{
+			for (int k = 0; k < figures.size(); k++)
+			{
+				for (int l = 0; l < figures[k]->components.size(); l++)
+				{
+
+					if (figures[k]->components[l]->isAlive)
+					{
+						if (figures[k]->components[l]->pos.y==i)
+						{
+							figures[k]->components[l]->isAlive = false;
+						}
+					}
+
+				}
+			}
+			for (int g = 0; g< figures.size(); g++)
+			{
+				figures[g]->fall(i);
+			}
+		}
+	}
 }

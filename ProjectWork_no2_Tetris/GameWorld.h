@@ -19,6 +19,7 @@ public:
 	void draw();
 	void keyPressed(const std::string&);
 	bool colisionDetec();
+	void lainDeleter();
 private:
 
 };

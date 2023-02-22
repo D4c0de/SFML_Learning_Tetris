@@ -51,7 +51,7 @@ int main()
 
         }
         draw(&window, &world);
-        Sleep(300);
+        Sleep(150);
     }
 }
 

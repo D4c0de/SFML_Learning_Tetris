@@ -20,6 +20,7 @@ public:
 	void move(bool);
 	void undoMove(bool);
 	void fall();
+	void fall(int);
 	void undoFall();
 	void rotate();
 	void undoRotate();

@@ -25,6 +25,19 @@ void Figure::fall() {
 		components[i]->fall();
 	}
 }
+void Figure::fall(int posy)
+{
+
+	
+	for (int i = 0; i < components.size(); i++)
+	{
+		
+		if (components[i]->pos.y < posy) {
+			components[i]->fall();
+		}
+	}
+
+}
 void Figure::undoFall() {
 
 	for (int i = 0; i < components.size(); i++)
@@ -74,8 +87,12 @@ std::vector<sf::Sprite>* Figure::getComponet() {
 	std::vector<sf::Sprite>* sprite= new std::vector<sf::Sprite>();
 	for (int i = 0; i < components.size(); i++)
 	{
+		if (components[i]->isAlive)
+		{
+			sprite->push_back(components[i]->getSprite());
 
-		sprite->push_back(components[i]->getSprite());
+		}
+		
 		
 	}
 	return sprite;

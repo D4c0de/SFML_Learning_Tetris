@@ -7,10 +7,13 @@ Component::Component() {
 	color = "red";
 	pos.x = 5;
 	pos.y = 0;
+	isAlive = true;
 	setupTexture();
+
 }
 Component::Component(const std::string& _color,int posH,int posV)
 {
+	isAlive = true;
 	isCentral = false;
 	color = _color;
 	pos.x = posH;
@@ -21,6 +24,7 @@ Component::Component(const std::string& _color,int posH,int posV)
 }
 Component::Component(const std::string& _color, int posH, int posV,bool _isCentral)
 {
+	isAlive = true;
 	isCentral = _isCentral;
 	color = _color;
 	pos.x = posH;
