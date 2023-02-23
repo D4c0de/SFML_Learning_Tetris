@@ -93,32 +93,49 @@ void Component::undoMove(bool left) {
 void Component::rotate(const int x, const int y) {
 	int difx = x - pos.x;
 	int dify = y - pos.y;
-
-	if (difx!=0)
+	int posx = pos.x;
+	int posy = pos.y;
+	if (difx != 0)
 	{
 		pos.y = y - difx;
-		pos.x = x;
+		
 	}
-	if (dify!=0)
+	else
 	{
-		pos.x = x + dify;
 		pos.y = y;
+	}
+	if (dify != 0) {
+		
+		pos.x = x + dify;
+	}
+	else
+	{
+		pos.x = x;
 	}
 	sprite.setPosition(pos.x * 50, pos.y * 50);
 }
 void Component::undoRotate(const int x, const int y) {
 	int difx = x - pos.x;
 	int dify = y - pos.y;
+	int posx = pos.x;
+	int posy = pos.y;
 
 	if (difx != 0)
 	{
 		pos.y = y + difx;
-		pos.x = x;
+
 	}
-	if (dify != 0)
+	else
 	{
-		pos.x = x - dify;
 		pos.y = y;
+	}
+	if (dify != 0) {
+
+		pos.x = x - dify;
+	}
+	else
+	{
+		pos.x = x;
 	}
 	sprite.setPosition(pos.x * 50, pos.y * 50);
 }

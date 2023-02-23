@@ -1,6 +1,6 @@
 #include "GameWorld.h"
 #include <SFML/Graphics.hpp>
-
+#include <cstdlib>
 
 GameWorld::GameWorld(sf::RenderWindow* _window) {
 
@@ -14,7 +14,7 @@ GameWorld::GameWorld(int _windowHeight, int _windowWidth,sf::RenderWindow* _wind
 	noOfGrid[0] = _windowWidth / 50;
 	noOfGrid[1] = _windowHeight / 50;
 	window = _window;
-	spawnNewFigure("T");
+	spawnNewFigure("Rand");
 }
 
 GameWorld::~GameWorld() {
@@ -25,8 +25,30 @@ GameWorld::~GameWorld() {
 }
 
 void GameWorld::spawnNewFigure(std::string type) {
+	if (type == "Rand") {
+		int r = rand() % 4+1;
+		switch (r)
+		{
+		case(1):
+			figures.push_back(new Figure("T"));
+			break;
+		case(2):
+			figures.push_back(new Figure("I"));
+			break;
+		case(3):
+			figures.push_back(new Figure("Z"));
+			break;
+		case(4):
+			figures.push_back(new Figure("o"));
+			break;
+		}
 
+
+	}
+	else
+	{
 	figures.push_back(new Figure(type));
+	}
 	curentDroping = figures[figures.size() - 1];
 }
 void GameWorld::draw() {
@@ -52,7 +74,7 @@ void GameWorld::keyPressed(const std::string& key) {
 		{
 			curentDroping->undoFall();
 			lainDeleter();
-			spawnNewFigure("I");
+			spawnNewFigure("Rand");
 		}
 		
 	}
@@ -63,7 +85,7 @@ void GameWorld::keyPressed(const std::string& key) {
 		{
 			curentDroping->undoMove(false);
 			lainDeleter();
-			spawnNewFigure("I");
+			spawnNewFigure("Rand");
 		}
 	}
 	else if (key == "left")
@@ -73,7 +95,7 @@ void GameWorld::keyPressed(const std::string& key) {
 		{
 			curentDroping->undoMove(true);
 			lainDeleter();
-			spawnNewFigure("I");
+			spawnNewFigure("Rand");
 		}
 	}
 	else if (key == "up") {
@@ -82,7 +104,7 @@ void GameWorld::keyPressed(const std::string& key) {
 		{
 			curentDroping->undoRotate();
 			lainDeleter();
-			spawnNewFigure("I");
+			spawnNewFigure("Rand");
 			
 		}
 	}

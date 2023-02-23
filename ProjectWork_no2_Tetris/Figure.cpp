@@ -70,7 +70,6 @@ void Figure::setUpComponent() {
 		components.push_back(central);
 		components.push_back(new Component("red", 5, 0));
 		components.push_back(new Component("red", 4, 1));
-		components.push_back(new Component("red", 4, 2));
 	}
 	else if (type=="I")
 
@@ -81,6 +80,23 @@ void Figure::setUpComponent() {
 		components.push_back(new Component("red", 4, 2));
 		components.push_back(new Component("red", 4, 3));
 	}
+	else if (type=="Z")
+	{
+		central = new Component("red", 4, 1, true);
+		components.push_back(new Component("red", 3, 1));
+		components.push_back(central);
+		components.push_back(new Component("red", 4, 2));
+		components.push_back(new Component("red", 5, 2));
+	}
+	else if (type == "o")
+	{
+		central = new Component("red", 4, 1, true);
+		components.push_back(new Component("red", 3, 1));
+		components.push_back(central);
+		components.push_back(new Component("red", 4, 2));
+		components.push_back(new Component("red", 3, 2));
+	}
+	
 }
 std::vector<sf::Sprite>* Figure::getComponet() {
 
@@ -100,7 +116,10 @@ std::vector<sf::Sprite>* Figure::getComponet() {
 
 
 void Figure::rotate() {
-
+	if (type=="o")
+	{
+		return;
+	}
 	const int centalHor = central->pos.x;
 	const int centralVec = central->pos.y;
 
@@ -115,7 +134,10 @@ void Figure::rotate() {
 
 }
 void Figure::undoRotate() {
-
+	if (type == "o")
+	{
+		return;
+	}
 	const int centalHor = central->pos.x;
 	const int centralVec = central->pos.y;
 
