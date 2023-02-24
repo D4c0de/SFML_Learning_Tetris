@@ -1,5 +1,5 @@
 #include "Figure.h"
-
+#include <cstdlib>
 
 Figure::Figure(const std::string& _type)
 {
@@ -12,9 +12,7 @@ Figure::~Figure()
 {
 	for (int i = 0; i < components.size(); i++)
 	{
-
 			delete components[i];
-		
 	}
 }
 
@@ -36,7 +34,6 @@ void Figure::fall(int posy)
 			components[i]->fall();
 		}
 	}
-
 }
 void Figure::undoFall() {
 
@@ -63,40 +60,86 @@ void Figure::undoMove(bool left) {
 void Figure::setUpComponent() {
 
 	std::vector<Component*> part;
+	sf::Texture* texture = new sf::Texture();
+	setUpColor();
+	texture->loadFromFile("img/" + color + ".png");
 	if (type=="T")
 	{
-		central= new Component("red", 4, 0, true);
-		components.push_back(new Component("red", 3, 0));
+		central= new Component(texture, 4, 0, true);
+		components.push_back(new Component(texture, 3, 0));
 		components.push_back(central);
-		components.push_back(new Component("red", 5, 0));
-		components.push_back(new Component("red", 4, 1));
+		components.push_back(new Component(texture, 5, 0));
+		components.push_back(new Component(texture, 4, 1));
 	}
 	else if (type=="I")
 
 	{
-		central = new Component("red", 4, 1, true);
-		components.push_back(new Component("red", 4, 0));
+		central = new Component(texture, 4, 1, true);
+		components.push_back(new Component(texture, 4, 0));
 		components.push_back(central);
-		components.push_back(new Component("red", 4, 2));
-		components.push_back(new Component("red", 4, 3));
+		components.push_back(new Component(texture, 4, 2));
+		components.push_back(new Component(texture, 4, 3));
 	}
 	else if (type=="Z")
 	{
-		central = new Component("red", 4, 1, true);
-		components.push_back(new Component("red", 3, 1));
+		central = new Component(texture, 4, 1, true);
+		components.push_back(new Component(texture, 3, 1));
 		components.push_back(central);
-		components.push_back(new Component("red", 4, 2));
-		components.push_back(new Component("red", 5, 2));
+		components.push_back(new Component(texture, 4, 2));
+		components.push_back(new Component(texture, 5, 2));
 	}
-	else if (type == "o")
+	else if (type == "O")
 	{
-		central = new Component("red", 4, 1, true);
-		components.push_back(new Component("red", 3, 1));
+		central = new Component(texture, 4, 1, true);
+		components.push_back(new Component(texture, 3, 1));
 		components.push_back(central);
-		components.push_back(new Component("red", 4, 2));
-		components.push_back(new Component("red", 3, 2));
+		components.push_back(new Component(texture, 4, 2));
+		components.push_back(new Component(texture, 3, 2));
 	}
-	
+	else if (type == "S")
+	{
+		central = new Component(texture, 4, 1, true);
+		components.push_back(new Component(texture, 5, 1));
+		components.push_back(central);
+		components.push_back(new Component(texture, 4, 2));
+		components.push_back(new Component(texture, 3, 2));
+	}
+	else if (type == "L")
+	{
+		central = new Component(texture, 4, 2, true);
+		components.push_back(new Component(texture, 4, 1));
+		components.push_back(central);
+		components.push_back(new Component(texture, 5, 3));
+		components.push_back(new Component(texture, 4, 3));
+	}
+	else if (type == "J")
+	{
+		central = new Component(texture, 4, 2, true);
+		components.push_back(new Component(texture, 4, 1));
+		components.push_back(central);
+		components.push_back(new Component(texture, 4, 3));
+		components.push_back(new Component(texture, 3, 3));
+	}
+}
+void Figure::setUpColor()
+{
+	int r = rand() % 4 + 1;
+	switch (r)
+	{
+	case(1):
+		color = "red";
+		break;
+	case(2):
+		color = "blue";
+		break;
+	case(3):
+		color = "green";
+		break;
+	case(4):
+		color = "pink";
+		break;
+	}
+
 }
 std::vector<sf::Sprite>* Figure::getComponet() {
 

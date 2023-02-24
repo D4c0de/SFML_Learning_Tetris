@@ -16,6 +16,7 @@ public:
 	std::vector<Figure*> figures;
 	Figure* curentDroping=NULL;
 	void spawnNewFigure(std::string);
+	void fall();
 	void draw();
 	void keyPressed(const std::string&);
 	bool colisionDetec();

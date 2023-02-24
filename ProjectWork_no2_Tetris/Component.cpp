@@ -4,29 +4,28 @@
 
 Component::Component() {
 	
-	color = "red";
 	pos.x = 5;
 	pos.y = 0;
 	isAlive = true;
 	setupTexture();
 
 }
-Component::Component(const std::string& _color,int posH,int posV)
+Component::Component(sf::Texture* _texture,int posH,int posV)
 {
 	isAlive = true;
 	isCentral = false;
-	color = _color;
+	texture = _texture;
 	pos.x = posH;
 	pos.y = posV;
 
 	setupTexture();
 	
 }
-Component::Component(const std::string& _color, int posH, int posV,bool _isCentral)
+Component::Component(sf::Texture* _texture, int posH, int posV,bool _isCentral)
 {
 	isAlive = true;
+	texture = _texture;
 	isCentral = _isCentral;
-	color = _color;
 	pos.x = posH;
 	pos.y = posV;
 
@@ -41,8 +40,7 @@ Component::~Component()
 
 void Component::setupTexture()
 {
-	texture.loadFromFile("img/" + color + ".png");
-	sprite.setTexture(texture);
+	sprite.setTexture(*texture);
 	sprite.setPosition(pos.x * 50, pos.y * 50);
 }
 

@@ -12,7 +12,8 @@ public:
 	~Figure();
 
 	std::string type;
-
+	std::string color;
+	void setUpColor();
 	std::vector<Component*> components;
 	Component* central;
 	std::vector<sf::Sprite>* getComponet();

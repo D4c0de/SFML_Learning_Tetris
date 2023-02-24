@@ -23,35 +23,53 @@ int main()
     GameWorld world= GameWorld(windowHeight, windowWidth ,&window);
     while (window.isOpen())
     {
-        while (window.pollEvent(event))
+
+        for (int timer = 0; timer < 50; timer++)
         {
-            if (event.type == sf::Event::Closed)
+
+
+            while (window.pollEvent(event))
             {
-                window.close();
+                if (event.type == sf::Event::Closed)
+                {
+                    window.close();
+                }
+
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+            {
+                world.keyPressed("right");
+                draw(&window, &world);
+                Sleep(70);
+                timer += 7;
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+            {
+                world.keyPressed("left");
+                draw(&window, &world);
+                Sleep(70);
+                timer += 7;
+
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+            {
+                timer += 10;
+
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+            {
+                world.keyPressed("up");
+                draw(&window, &world);
+                Sleep(200);
+                timer += 20;
+
             }
 
+            Sleep(10);
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        {
-            world.keyPressed("right");
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        {
-            world.keyPressed("left");
-            
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        {
-            world.keyPressed("down");
-            
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        {
-            world.keyPressed("up");
-
-        }
+        world.fall();
         draw(&window, &world);
-        Sleep(150);
+
     }
 }
 

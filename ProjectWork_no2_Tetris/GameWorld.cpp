@@ -25,8 +25,9 @@ GameWorld::~GameWorld() {
 }
 
 void GameWorld::spawnNewFigure(std::string type) {
+
 	if (type == "Rand") {
-		int r = rand() % 4+1;
+		int r = rand() % 7+1;
 		switch (r)
 		{
 		case(1):
@@ -39,7 +40,16 @@ void GameWorld::spawnNewFigure(std::string type) {
 			figures.push_back(new Figure("Z"));
 			break;
 		case(4):
-			figures.push_back(new Figure("o"));
+			figures.push_back(new Figure("O"));
+			break;
+		case(5):
+			figures.push_back(new Figure("S"));
+			break;
+		case(6):
+			figures.push_back(new Figure("L"));
+			break;
+		case(7):
+			figures.push_back(new Figure("J"));
 			break;
 		}
 
@@ -65,20 +75,18 @@ void GameWorld::draw() {
 	}
 	
 }
-void GameWorld::keyPressed(const std::string& key) {
-	if (key == "down")
-	{
-		curentDroping->fall();
+void GameWorld::fall() {
+	curentDroping->fall();
 
-		if (colisionDetec())
-		{
-			curentDroping->undoFall();
-			lainDeleter();
-			spawnNewFigure("Rand");
-		}
-		
+	if (colisionDetec())
+	{
+		curentDroping->undoFall();
+		lainDeleter();
+		spawnNewFigure("Rand");
 	}
-	else if (key == "right")
+}
+void GameWorld::keyPressed(const std::string& key) {
+	if (key == "right")
 	{
 		curentDroping->move(false);
 		if (colisionDetec())
@@ -120,11 +128,13 @@ bool GameWorld::colisionDetec() {
 			{
 				for (int k = 0; k < figures[j]->components.size(); k++)
 				{
-					
-					if (pos.x== figures[j]->components[k]->pos.x&&
-						pos.y == figures[j]->components[k]->pos.y)
+					if (figures[j]->components[k]->isAlive)
 					{
-						return true;
+						if (pos.x == figures[j]->components[k]->pos.x &&
+							pos.y == figures[j]->components[k]->pos.y)
+						{
+							return true;
+						}
 					}
 				}
 			}

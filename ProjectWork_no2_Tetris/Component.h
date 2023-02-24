@@ -7,13 +7,12 @@ class Component
 {
 public:
 	Component();
-	Component(const std::string&,int,int,bool);
-	Component(const std::string&, int, int);
+	Component(sf::Texture*,int,int,bool);
+	Component(sf::Texture*, int, int);
 	~Component();
 	bool isCentral;
 	sf::Vector2i pos;
-	std::string color;
-	sf::Texture texture;
+	sf::Texture* texture;
 	sf::Sprite sprite;
 	bool isAlive;
 	void move(bool);
