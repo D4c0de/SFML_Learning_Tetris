@@ -129,23 +129,6 @@ bool GameWorld::colisionDetec() {
 				}
 			}
 		}
-		for (int j = 0; j < figures.size(); j++)
-		{
-			if (figures[j] != curentDroping)
-			{
-				for (int k = 0; k < figures[j]->components.size(); k++)
-				{
-					if (figures[j]->components[k]->isAlive)
-					{
-						if (pos.x == figures[j]->components[k]->pos.x &&
-							pos.y == figures[j]->components[k]->pos.y)
-						{
-							return true;
-						}
-					}
-				}
-			}
-		}
 	}
 	
 	return false;
