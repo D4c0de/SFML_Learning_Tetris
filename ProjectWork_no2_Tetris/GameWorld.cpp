@@ -70,7 +70,7 @@ void GameWorld::keyPressed(const std::string& key) {
 	{
 		curentDroping->fall();
 
-		if (!colisionDetec())
+		if (colisionDetec())
 		{
 			curentDroping->undoFall();
 			lainDeleter();
@@ -81,30 +81,24 @@ void GameWorld::keyPressed(const std::string& key) {
 	else if (key == "right")
 	{
 		curentDroping->move(false);
-		if (!colisionDetec())
+		if (colisionDetec())
 		{
 			curentDroping->undoMove(false);
-			lainDeleter();
-			spawnNewFigure("Rand");
 		}
 	}
 	else if (key == "left")
 	{
 		curentDroping->move(true);
-		if (!colisionDetec())
+		if (colisionDetec())
 		{
 			curentDroping->undoMove(true);
-			lainDeleter();
-			spawnNewFigure("Rand");
 		}
 	}
 	else if (key == "up") {
 		curentDroping->rotate();
-		if (!colisionDetec())
+		if (colisionDetec())
 		{
 			curentDroping->undoRotate();
-			lainDeleter();
-			spawnNewFigure("Rand");
 			
 		}
 	}
@@ -112,37 +106,32 @@ void GameWorld::keyPressed(const std::string& key) {
 
 bool GameWorld::colisionDetec() {
 
-
-	
-	std::vector<std::vector<bool>> board(noOfGrid[0],std::vector<bool>(noOfGrid[1],false));
-	for (int i = 0; i < figures.size(); i++)
+	for (int i = 0; i < curentDroping->components.size(); i++)
 	{
-		for (int j = 0; j < figures[i]->components.size(); j++)
+		sf::Vector2i pos(curentDroping->components[i]->pos.x, curentDroping->components[i]->pos.y);
+		if (pos.x<0||pos.y>=noOfGrid[0]|| pos.x>=noOfGrid[1])
 		{
+			return true;
+		}
 
-			if (figures[i]!=curentDroping)
+		for (int j = 0; j < figures.size(); j++)
+		{
+			if (figures[j] != curentDroping)
 			{
-				if (figures[i]->components[j]->isAlive)
+				for (int k = 0; k < figures[j]->components.size(); k++)
 				{
-					board[figures[i]->components[j]->pos.y][figures[i]->components[j]->pos.x] = true;
+					
+					if (pos.x== figures[j]->components[k]->pos.x&&
+						pos.y == figures[j]->components[k]->pos.y)
+					{
+						return true;
+					}
 				}
-				
 			}
 		}
 	}
-	{
-		std::vector<bool> temp(noOfGrid[1],true);
-		board.push_back(temp);
-	}
-
-	for (int i = 0; i < curentDroping->components.size(); i++)
-	{
-			if (board[curentDroping->components[i]->pos.y][curentDroping->components[i]->pos.x] == true) {
-				return false;
-			}
-	}
-
-	return true;
+	
+	return false;
 	
 }
 void GameWorld::lainDeleter() {
